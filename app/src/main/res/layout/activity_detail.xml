@@ -35,9 +35,9 @@
             <TextView
                 android:id="@+id/description_tv"
                 style="@style/DetailTextView"
-                app:layout_constraintBaseline_toBaselineOf="@+id/detail_description_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/detail_description_label" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_description_label" />
 
 
             <TextView
@@ -50,9 +50,9 @@
             <TextView
                 android:id="@+id/origin_tv"
                 style="@style/DetailTextView"
-                app:layout_constraintBaseline_toBaselineOf="@+id/detail_place_of_origin_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/detail_place_of_origin_label" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_place_of_origin_label" />
 
 
             <TextView
@@ -65,9 +65,9 @@
             <TextView
                 android:id="@+id/ingredients_tv"
                 style="@style/DetailTextView"
-                app:layout_constraintBaseline_toBaselineOf="@id/detail_ingredients_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/detail_ingredients_label" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_ingredients_label" />
 
             <TextView
                 android:id="@+id/detail_also_known_as_label"
@@ -79,9 +79,9 @@
             <TextView
                 android:id="@+id/also_known_tv"
                 style="@style/DetailTextView"
-                app:layout_constraintBaseline_toBaselineOf="@id/detail_also_known_as_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/detail_also_known_as_label" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_also_known_as_label" />
 
 
         </android.support.constraint.ConstraintLayout>

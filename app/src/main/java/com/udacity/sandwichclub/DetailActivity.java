@@ -3,11 +3,18 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.databinding.ActivityDetailBinding;
 import com.udacity.sandwichclub.model.Sandwich;
@@ -27,7 +34,17 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mActivityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        final ImageView ingredientsIv = findViewById(R.id.image_iv);
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
+
+        ingredientsIv.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
 
         Intent intent = getIntent();
@@ -54,9 +71,31 @@ public class DetailActivity extends AppCompatActivity {
         populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
-                .into(ingredientsIv);
+                .into(ingredientsIv, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        progressBar.setVisibility(View.GONE);
+                        ingredientsIv.setVisibility(View.GONE);
+                        Snackbar.make(ingredientsIv, "Image not found", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
 
         setTitle(sandwich.getMainName());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void closeOnError() {
@@ -81,30 +120,27 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         List<String> ingredients = sandwich.getIngredients();
-        if(ingredients.size()>0) {
+        if (ingredients.size() > 0) {
             for (int i = 0; i < ingredients.size(); i++) {
                 mActivityDetailBinding.ingredientsTv.append(ingredients.get(i));
                 if (i != (ingredients.size() - 1)) {
                     mActivityDetailBinding.ingredientsTv.append("\n");
                 }
             }
-        }else{
+        } else {
             mActivityDetailBinding.ingredientsTv.append(getString(R.string.placeHolder));
         }
 
         List<String> alsoKnownAsList = sandwich.getAlsoKnownAs();
-        if(alsoKnownAsList.size()>0) {
+        if (alsoKnownAsList.size() > 0) {
             for (int i = 0; i < alsoKnownAsList.size(); i++) {
                 mActivityDetailBinding.alsoKnownTv.append(alsoKnownAsList.get(i));
                 if (i != (alsoKnownAsList.size() - 1)) {
                     mActivityDetailBinding.alsoKnownTv.append("\n");
                 }
             }
-        }else{
+        } else {
             mActivityDetailBinding.alsoKnownTv.append(getString(R.string.placeHolder));
         }
-
-        // {"name":{"mainName":"Ham and cheese sandwich","alsoKnownAs":[]},"placeOfOrigin":"","description":"A ham and cheese sandwich is a common type of sandwich. It is made by putting cheese and sliced ham between two slices of bread. The bread is sometimes buttered and/or toasted. Vegetables like lettuce, tomato, onion or pickle slices can also be included. Various kinds of mustard and mayonnaise are also common.","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Grilled_ham_and_cheese_014.JPG/800px-Grilled_ham_and_cheese_014.JPG","ingredients":["Sliced bread","Cheese","Ham"]}
-
     }
 }

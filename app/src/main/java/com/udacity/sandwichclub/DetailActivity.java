@@ -136,7 +136,9 @@ public class DetailActivity extends AppCompatActivity {
             for (int i = 0; i < alsoKnownAsList.size(); i++) {
                 mActivityDetailBinding.alsoKnownTv.append(alsoKnownAsList.get(i));
                 if (i != (alsoKnownAsList.size() - 1)) {
-                    mActivityDetailBinding.alsoKnownTv.append("\n");
+                    mActivityDetailBinding.alsoKnownTv.append(",");
+                }else{
+                    mActivityDetailBinding.alsoKnownTv.append(".");
                 }
             }
         } else {
